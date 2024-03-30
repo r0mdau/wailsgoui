@@ -27,10 +27,13 @@ function reset() {
 <template>
   <main>
     <div id="result" class="result">Manage todolist items</div>
-    <div id="input" class="input-box">
-      <input id="name" v-model="data.name" autocomplete="off" class="input" type="text" v-on:keyup.enter="add"/>
-      <button class="btn" @click="add">Add</button>
-      <button class="btn" @click="reset">Reset</button>
+    <div class="form-inline">
+      <div class="form-group">
+        <label for="item">Item</label>
+        <input id="name" v-model="data.name" autocomplete="off" class="form-control" type="text" v-on:keyup.enter="add"/>
+      </div>
+      <button class="btn btn-primary" @click="add">Add</button>
+      <button class="btn btn-danger" @click="reset">Reset</button>
     </div>
     <div id="todolist" class="todolist">
       <ul>
