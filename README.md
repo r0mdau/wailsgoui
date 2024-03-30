@@ -1,4 +1,6 @@
-# README
+# wailsgoui
+
+Experimenting Wails.io and building a todolist.
 
 ## About
 

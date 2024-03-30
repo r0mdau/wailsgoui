@@ -1,15 +1,24 @@
 <script setup>
 import {reactive} from 'vue'
-import {Greet} from '../../wailsjs/go/main/App'
+import {Add} from '../../wailsjs/go/main/App'
+import {Reset} from '../../wailsjs/go/main/App'
 
 const data = reactive({
   name: "",
-  resultText: "Please enter your name below 👇",
+  resultText: "",
 })
 
-function greet() {
-  Greet(data.name).then(result => {
-    data.resultText = result
+function add() {
+  Add(data.name).then(result => {
+    data.items = result
+    data.name = ""
+  })
+}
+
+function reset() {
+  Reset().then(result => {
+    data.items = result
+    data.name = ""
   })
 }
 
@@ -17,10 +26,18 @@ function greet() {
 
 <template>
   <main>
-    <div id="result" class="result">{{ data.resultText }}</div>
+    <div id="result" class="result">Manage todolist items</div>
     <div id="input" class="input-box">
-      <input id="name" v-model="data.name" autocomplete="off" class="input" type="text"/>
-      <button class="btn" @click="greet">Greet</button>
+      <input id="name" v-model="data.name" autocomplete="off" class="input" type="text" v-on:keyup.enter="add"/>
+      <button class="btn" @click="add">Add</button>
+      <button class="btn" @click="reset">Reset</button>
+    </div>
+    <div id="todolist" class="todolist">
+      <ul>
+        <li v-for="item in data.items" :key="item.id">
+          <span>{{ item }}</span>
+        </li>
+      </ul>
     </div>
   </main>
 </template>

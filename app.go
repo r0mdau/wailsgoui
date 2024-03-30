@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 )
 
 // App struct
@@ -21,7 +20,16 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+var items []string
+
+// Reset clears the todolist
+func (a *App) Reset() []string {
+	items = []string{}
+	return items
+}
+
+// Add adds an item to the todolist
+func (a *App) Add(item string) []string {
+	items = append(items, item)
+	return items
 }
