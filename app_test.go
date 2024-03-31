@@ -47,7 +47,7 @@ func TestLoad(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	app := &App{
-		Repo: NewData("./data", "todolist"),
+		Repo: NewRepo("./data", "todolist"),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
@@ -72,7 +72,7 @@ func TestAdd(t *testing.T) {
 }
 func TestRemove(t *testing.T) {
 	app := &App{
-		Repo: NewData("./data", "todolist"),
+		Repo: NewRepo("./data", "todolist"),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
@@ -102,7 +102,7 @@ func TestRemove(t *testing.T) {
 
 func TestReset(t *testing.T) {
 	app := &App{
-		Repo: NewData("./data", "todolist"),
+		Repo: NewRepo("./data", "todolist"),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,

@@ -12,8 +12,8 @@ type Repository struct {
 	collection string
 }
 
-// NewData creates a new Repository from path and collection
-func NewData(path, collection string) Repository {
+// NewRepo creates a new Repository from path and collection
+func NewRepo(path, collection string) Repository {
 	db, err := scribble.New(path, nil)
 	if err != nil {
 		fmt.Println("Error", err)

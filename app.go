@@ -20,7 +20,7 @@ type App struct {
 // NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{
-		Repo: NewData("./data", "todolist"),
+		Repo: NewRepo("./data", "todolist"),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
