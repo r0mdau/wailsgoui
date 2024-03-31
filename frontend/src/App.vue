@@ -2,7 +2,9 @@
 import Todolist from './components/Todolist.vue'</script>
 
 <template>
-  <Todolist/>
+  <div class="container-fluid">
+    <Todolist/>
+  </div>
 </template>
 
 <style>

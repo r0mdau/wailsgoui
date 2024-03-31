@@ -20,16 +20,33 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-var items []string
+type todolist struct {
+	items   map[int]string
+	lastKey int
+}
+
+var todo = todolist{
+	items:   make(map[int]string),
+	lastKey: 0,
+}
 
 // Reset clears the todolist
-func (a *App) Reset() []string {
-	items = []string{}
-	return items
+func (a *App) Reset() map[int]string {
+	todo = todolist{
+		items:   make(map[int]string),
+		lastKey: 0,
+	}
+	return todo.items
 }
 
 // Add adds an item to the todolist
-func (a *App) Add(item string) []string {
-	items = append(items, item)
-	return items
+func (a *App) Add(item string) map[int]string {
+	todo.lastKey++
+	todo.items[todo.lastKey] = item
+	return todo.items
+}
+
+func (a *App) Remove(key int) map[int]string {
+	delete(todo.items, key)
+	return todo.items
 }
