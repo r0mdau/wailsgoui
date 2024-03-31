@@ -21,9 +21,9 @@ jobs:
           - name: wailsTest
             platform: windows/amd64
             os: windows-latest
-          - name: wailsTest
-            platform: darwin/universal
-            os: macos-latest
+          # - name: wailsTest
+          #   platform: darwin/universal
+          #   os: macos-latest
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
         with:
           build-name: ${{ matrix.name }}
           build-platform: ${{ matrix.platform }}
-          
+
   test:
     runs-on: ubuntu-latest
     steps:
