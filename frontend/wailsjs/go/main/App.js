@@ -6,6 +6,10 @@ export function Add(arg1) {
   return window['go']['main']['App']['Add'](arg1);
 }
 
+export function Load() {
+  return window['go']['main']['App']['Load']();
+}
+
 export function Remove(arg1) {
   return window['go']['main']['App']['Remove'](arg1);
 }

@@ -3,6 +3,8 @@
 
 export function Add(arg1:string):Promise<{[key: number]: string}>;
 
+export function Load():Promise<{[key: number]: string}>;
+
 export function Remove(arg1:number):Promise<{[key: number]: string}>;
 
 export function Reset():Promise<{[key: number]: string}>;

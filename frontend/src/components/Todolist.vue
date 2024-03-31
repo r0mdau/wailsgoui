@@ -3,9 +3,16 @@ import {reactive} from 'vue'
 import {Add} from '../../wailsjs/go/main/App'
 import {Reset} from '../../wailsjs/go/main/App'
 import {Remove} from '../../wailsjs/go/main/App'
+import {Load} from '../../wailsjs/go/main/App'
 
 const data = reactive({
   items: {},
+})
+
+
+Load().then(result => {
+  data.items = result
+  data.name= ""
 })
 
 function add() {

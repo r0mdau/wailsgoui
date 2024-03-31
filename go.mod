@@ -2,13 +2,17 @@ module github.com/r0mdau/wailsgoui
 
 go 1.18
 
-require github.com/wailsapp/wails/v2 v2.8.0
+require (
+	github.com/sdomino/scribble v0.0.0-20230717151034-b95d4df19aa8
+	github.com/wailsapp/wails/v2 v2.8.0
+)
 
 require (
 	github.com/bep/debounce v1.2.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/jcelliott/lumber v0.0.0-20160324203708-dd349441af25 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
