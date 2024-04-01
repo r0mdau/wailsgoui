@@ -62,7 +62,11 @@ function remove(index) {
       <tr v-for="(item, index) in data.items">
         <td>{{ index }}</td>
         <td>{{ item }}</td>
-        <td><div class="btn btn-danger" @click="remove(index)">X</div></td>
+        <td>
+          <div class="btn btn-sm btn-danger" @click="remove(index)">
+            <i class="bi-trash"></i>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
