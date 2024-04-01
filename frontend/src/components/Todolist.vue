@@ -50,7 +50,7 @@ function remove(index) {
     <button class="btn btn-primary" @click="add">Add</button>
     <button class="btn btn-danger" @click="reset">Reset</button>
   </div>
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
