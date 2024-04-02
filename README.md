@@ -1,6 +1,23 @@
 # wailsgoui
 
-Experimenting Wails.io and building a todolist.
+Experimenting [Wails.io](https://wails.io) and building a todolist.
+
+## Features to develop
+
+* Update item
+* Show error log to the user
+* Mark item done, allow to remove all items done
+* Sort item alphabetically
+* Add a deadline date to items
+* Sort items by deadline date
+* Add tags to item e.g.: #work, #market
+* search tasks by name or by tag
+* Save user preferences
+* Ssh synchronization of datastore
+* Switch between light and dark mode
+* Internationalization of the app through os language preferences
+* Analytics and insights into item completion rates...
+* ML to predict task completion date or future tasks ?
 
 ## About
 
