@@ -1,9 +1,18 @@
 <script setup>
-import Todolist from './components/Todolist.vue'</script>
+import Todolist from './components/Todolist.vue'
+import Menu from './components/Menu.vue'
+</script>
 
 <template>
   <div class="container-fluid">
-    <Todolist/>
+    <div class="row">
+      <div class="col-5">
+        <Menu/>
+      </div>
+      <div class="col-7">
+        <Todolist/>
+      </div>
+    </div>
   </div>
 </template>
 

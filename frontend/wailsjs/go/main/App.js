@@ -6,8 +6,20 @@ export function Add(arg1) {
   return window['go']['main']['App']['Add'](arg1);
 }
 
-export function Load() {
-  return window['go']['main']['App']['Load']();
+export function ChangeDatastorePath(arg1) {
+  return window['go']['main']['App']['ChangeDatastorePath'](arg1);
+}
+
+export function GetDatastorePath() {
+  return window['go']['main']['App']['GetDatastorePath']();
+}
+
+export function GetItems() {
+  return window['go']['main']['App']['GetItems']();
+}
+
+export function LoadDatastore() {
+  return window['go']['main']['App']['LoadDatastore']();
 }
 
 export function Remove(arg1) {
