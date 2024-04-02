@@ -3,14 +3,21 @@ import {reactive} from 'vue'
 import {Add} from '../../wailsjs/go/main/App'
 import {Reset} from '../../wailsjs/go/main/App'
 import {Remove} from '../../wailsjs/go/main/App'
-import {Load} from '../../wailsjs/go/main/App'
+import {GetItems} from '../../wailsjs/go/main/App'
 
 const data = reactive({
   items: {},
 })
 
+window.runtime.EventsOn("ReloadItems", function (path) {
+  GetItems().then(result => {
+    data.items = result
+    data.name= ""
+  })
+});
 
-Load().then(result => {
+
+GetItems().then(result => {
   data.items = result
   data.name= ""
 })
@@ -39,17 +46,16 @@ function remove(index) {
 </script>
 
 <template>
-  <div class="container-sm">
-    <div id="result" class="result">Manage todolist items</div>
-  </div>
   <div class="form-inline">
     <div class="form-group">
-      <label for="item">Item</label>
+      <label for="item">Add items</label>
       <input id="name" v-model="data.name" autocomplete="off" class="form-control" type="text" v-on:keyup.enter="add"/>
     </div>
     <button class="btn btn-primary" @click="add">Add</button>
     <button class="btn btn-danger" @click="reset">Reset</button>
   </div>
+  <br>
+  <h2>Items List</h2>
   <table class="table table-striped">
     <thead>
       <tr>

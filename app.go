@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"math"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type Todolist struct {
@@ -17,10 +19,17 @@ type App struct {
 	Tlist Todolist
 }
 
+const defaultCollection = "todolist"
+
+var defaultStore = "./data"
+
 // NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{
-		Repo: NewRepo("./data", "todolist"),
+		Repo: &repository{
+			datastorePath: defaultStore,
+			collection:    defaultCollection,
+		},
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
@@ -46,13 +55,18 @@ func maxKey(items map[int]string) int {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	a.Repo = NewRepo(defaultStore, defaultCollection)
+	a.LoadDatastore()
+}
 
+// LoadDatastore loads the datastore into memory
+func (a *App) LoadDatastore() {
 	a.Tlist.items = a.Repo.GetAll()
 	a.Tlist.lastKey = maxKey(a.Tlist.items)
 }
 
-// Load returns the current todolist
-func (a *App) Load() map[int]string {
+// GetItems returns the current todolist
+func (a *App) GetItems() map[int]string {
 	return a.Tlist.items
 }
 
@@ -79,4 +93,21 @@ func (a *App) Reset() map[int]string {
 	}
 	a.Repo.Save(a.Tlist.items)
 	return a.Tlist.items
+}
+
+// GetDatastorePath returns the current datastore path
+func (a *App) GetDatastorePath() string {
+	return a.Repo.GetDatastorePath()
+}
+
+// ChangeDatastorePath changes the datastore path and trigger a reload items event
+func (a *App) ChangeDatastorePath(path string) string {
+	a.Repo = NewRepo(path, defaultCollection)
+	a.LoadDatastore()
+
+	// TODO find a more elegant hack for unit tests
+	if a.ctx != nil {
+		runtime.EventsEmit(a.ctx, "ReloadItems", path)
+	}
+	return a.Repo.GetDatastorePath()
 }

@@ -1,14 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"testing"
+
+	"github.com/sdomino/scribble"
 )
+
+const TestCollection = "todolist_test"
 
 func TestNewApp(t *testing.T) {
 	app := NewApp()
 
 	// Verify that the repository is initialized correctly
-	if app.Repo.collection != "todolist" {
+	if app.Repo.GetCollection() != defaultCollection {
 		t.Error("Expected non-nil repository")
 	}
 
@@ -30,7 +35,7 @@ func TestLoad(t *testing.T) {
 	}
 
 	// Call the Load function
-	result := app.Load()
+	result := app.GetItems()
 
 	// Verify that the loaded items are correct
 	if len(result) != 3 {
@@ -47,7 +52,7 @@ func TestLoad(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	app := &App{
-		Repo: NewRepo("./data", "todolist"),
+		Repo: NewRepo(defaultStore, TestCollection),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
@@ -72,7 +77,7 @@ func TestAdd(t *testing.T) {
 }
 func TestRemove(t *testing.T) {
 	app := &App{
-		Repo: NewRepo("./data", "todolist"),
+		Repo: NewRepo(defaultStore, TestCollection),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
@@ -102,7 +107,7 @@ func TestRemove(t *testing.T) {
 
 func TestReset(t *testing.T) {
 	app := &App{
-		Repo: NewRepo("./data", "todolist"),
+		Repo: NewRepo(defaultStore, TestCollection),
 		Tlist: Todolist{
 			items:   make(map[int]string),
 			lastKey: 0,
@@ -166,5 +171,112 @@ func TestMaxKey(t *testing.T) {
 		if result != tc.expectedResult {
 			t.Errorf("Expected %d, got %d", tc.expectedResult, result)
 		}
+	}
+}
+func TestGetDatastorePath(t *testing.T) {
+	app := &App{
+		Repo: NewRepo(defaultStore, TestCollection),
+	}
+
+	expectedResult := defaultStore
+	result := app.GetDatastorePath()
+
+	if result != expectedResult {
+		t.Errorf("Expected '%s', got '%s'", expectedResult, result)
+	}
+}
+func TestChangeDatastorePath(t *testing.T) {
+	app := &App{
+		Repo: NewRepo(defaultStore, TestCollection),
+		Tlist: Todolist{
+			items:   make(map[int]string),
+			lastKey: 0,
+		},
+	}
+
+	expected := defaultStore
+	actual := app.GetDatastorePath()
+
+	if actual != expected {
+		t.Errorf("Expected '%s', got '%s'", expected, actual)
+	}
+
+	// Change the datastore path
+	expected = "/tmp"
+	actual = app.ChangeDatastorePath(expected)
+
+	// Verify that the datastore path is updated correctly
+	if actual != expected {
+		t.Errorf("Expected '%s', got '%s'", expected, actual)
+	}
+}
+
+type MockRepository struct {
+	datastorePath string
+	collection    string
+	driver        *scribble.Driver
+}
+
+func (m *MockRepository) GetAll() map[int]string {
+	return map[int]string{
+		1: "item1",
+		2: "item2",
+		3: "item3",
+	}
+}
+
+func (m *MockRepository) Save(items map[int]string) {
+	// Do nothing
+}
+
+func (m *MockRepository) GetCollection() string {
+	return m.collection
+}
+
+func (m *MockRepository) GetDatastorePath() string {
+	return m.datastorePath
+}
+
+func (m *MockRepository) GetDriver() *scribble.Driver {
+	return m.driver
+}
+
+func TestLoadDatastore(t *testing.T) {
+	db, err := scribble.New(defaultStore, nil)
+	if err != nil {
+		fmt.Println("Error", err)
+	}
+	var repo = MockRepository{
+		datastorePath: defaultStore,
+		collection:    TestCollection,
+		driver:        db,
+	}
+	app := &App{
+		Repo: &repo,
+		Tlist: Todolist{
+			items:   make(map[int]string),
+			lastKey: 0,
+		},
+	}
+
+	// Call the LoadDatastore function
+	app.LoadDatastore()
+
+	// Verify that the items are loaded correctly
+	if len(app.Tlist.items) != 3 {
+		t.Errorf("Expected 3 items, got %d", len(app.Tlist.items))
+	}
+
+	expectedResults := []string{"", "item1", "item2", "item3"}
+
+	for i, expectedResult := range expectedResults {
+		if app.Tlist.items[i] != expectedResult {
+			t.Errorf("Expected '%s', got '%s'", expectedResult, app.Tlist.items[i])
+		}
+	}
+
+	// Verify that the last key is updated correctly
+	if app.Tlist.lastKey != 3 {
+		t.Errorf("Expected last key to be 3, got %d", app.Tlist.lastKey)
 	}
 }

@@ -3,7 +3,13 @@
 
 export function Add(arg1:string):Promise<{[key: number]: string}>;
 
-export function Load():Promise<{[key: number]: string}>;
+export function ChangeDatastorePath(arg1:string):Promise<string>;
+
+export function GetDatastorePath():Promise<string>;
+
+export function GetItems():Promise<{[key: number]: string}>;
+
+export function LoadDatastore():Promise<void>;
 
 export function Remove(arg1:number):Promise<{[key: number]: string}>;
 
